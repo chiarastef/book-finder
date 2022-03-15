@@ -91,7 +91,7 @@ form {
   background-color: rgba($accent-color, 0.2);
   border: $border;
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 15px 20px;
   margin: 0 auto 20px;
 
   .title {
@@ -122,12 +122,12 @@ form {
   }
 
   .cover {
-    display: none;
     height: 190px;
     width: 116px;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    margin: 0 auto 10px;
   }
 
   .show {
@@ -217,7 +217,7 @@ form {
 
   .bookItem {
     width: 75%;
-    padding: 12px 60px;
+    padding: 17px 60px;
 
     .title {
       font-size: 19px;
@@ -237,6 +237,6 @@ form {
 @media screen and (min-width: 1200px) {
   .bookItem {
     width: 900px;
-    padding: 12px 80px;
+    padding: 17px 80px;
   }
 }

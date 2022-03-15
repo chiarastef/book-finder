@@ -5,11 +5,13 @@ const form = document.querySelector("form");
 // Search subject
 searchBtn.addEventListener("click", function (event) {
   event.preventDefault();
+
   // Make input text always all lowercase
   let subject = searchInput.value.toLowerCase();
+  // Empty input field after search
   searchInput.value = "";
 
-  // Check if input is not empty
+  // Check if input is empty
   if (subject == "") {
     emptySubjMsg();
     return;
@@ -19,17 +21,37 @@ searchBtn.addEventListener("click", function (event) {
   getBookList(subject);
 });
 
-// Create message if input is empty
-function emptySubjMsg() {
+// Get list of books for subject in input
+function getBookList(subject) {
+  axios
+    .get(`https://openlibrary.org/subjects/${subject}.json`)
+    .then(function (response) {
+      // Iterate through array of works with that subject and create book items
+      for (let i = response.data.works.length - 1; i >= 0; i--) {
+        createBookItem(response, i);
+      }
+
+      if (response.data.work_count == 0) {
+        noSubjMsg();
+      }
+    })
+    .catch(function () {
+      // handle error
+      emptySubjMsg();
+    });
+}
+
+// Create error message if subject doesn't exist
+function noSubjMsg() {
   // Make message appear only once
-  if (document.querySelector(".no-subj-msg")) {
+  if (document.querySelector(`.no-subj-msg`)) {
     return;
   }
 
   // Make message appear
   const noSubj = document.createElement("div");
   noSubj.classList.add("no-subj-msg");
-  noSubj.textContent = "Please, type a subject to find books.";
+  noSubj.textContent = "Sorry, there are no books related to this subject.";
   form.after(noSubj);
 
   // When user types in the input, make message disappear
@@ -38,87 +60,146 @@ function emptySubjMsg() {
   });
 }
 
-// Get list of books for subject in input
-function getBookList(subject) {
-  axios
-    .get(`https://openlibrary.org/subjects/${subject}.json`)
-    .then(function (response) {
-      // Iterate through array of works with that subject
-      for (let i = response.data.works.length - 1; i >= 0; i--) {
-        createBookItem(response, i);
-      }
-    });
+// Create error message if input is empty
+function emptySubjMsg() {
+  // Make message appear only once
+  if (document.querySelector(".no-subj-msg")) {
+    return;
+  }
+
+  // Make message appear
+  const emptySubj = document.createElement("div");
+  emptySubj.classList.add("no-subj-msg");
+  emptySubj.textContent = "Please, type a subject to find books.";
+  form.after(emptySubj);
+
+  // When user types in the input, make message disappear
+  searchInput.addEventListener("input", function () {
+    emptySubj.remove();
+  });
 }
 
-function createBookItem(response, a) {
+function createBookItem(resp, num) {
   // Create single book item for all books
   const bookItem = document.createElement("div");
   bookItem.classList.add("bookItem");
-  bookItem.innerHTML = `<span class="title">${response.data.works[a].title}</span> 
-                        <span class="author">by </span>
-                        <i class="fa-solid fa-angle-down arrow" title="Expand"></i>`;
-  // Add book item after search form
+
   form.after(bookItem);
 
-  // Book author(s)
-  const author = document.createElement("span");
-  const authorContainer = document.querySelector(".author");
-  for (let j = 0; j < response.data.works[a].authors.length; j++) {
-    if (response.data.works[a].authors.length > 1) {
-      if (j != response.data.works[a].authors.length - 1) {
-        author.textContent += `${response.data.works[a].authors[j].name}, `;
+  // Book title element
+  const titleEl = document.createElement("span");
+  titleEl.classList.add("title");
+
+  bookItem.append(titleEl);
+
+  titleEl.textContent = resp.data.works[num].title;
+
+  // Book author element
+  const authorEl = document.createElement("span");
+  authorEl.classList.add("author");
+
+  bookItem.append(authorEl);
+
+  addAuthors(resp, num, authorEl);
+
+  // Arrow element to expand book item
+  const arrow = document.createElement("i");
+  arrow.classList.add("fa-solid", "fa-angle-down", "arrow");
+  arrow.setAttribute("title", "Expand");
+
+  bookItem.append(arrow);
+
+  // Book cover ID
+  const coverId = resp.data.works[num].cover_id;
+
+  // Get book description
+  getDescr(resp, num, coverId, bookItem, arrow);
+
+  // Delete book items when the user clicks on search again
+  searchBtn.addEventListener("click", () => {
+    bookItem.remove();
+  });
+}
+
+// Format author element
+function addAuthors(resp, num, el) {
+  el.textContent = "by ";
+  resp.data.works[num].authors.forEach((author, index) => {
+    // Check if there are more than one authors
+    if (resp.data.works[num].authors.length > 1) {
+      // Add a comma after every author name except the last one
+      if (resp.data.works[num].authors.length - 1 != index) {
+        el.textContent += `${author.name}, `;
       } else {
-        author.textContent += response.data.works[a].authors[j].name;
+        el.textContent += author.name;
       }
     } else {
-      author.textContent = response.data.works[a].authors[j].name;
+      el.textContent += author.name;
     }
-    // Add author name(s) to author element
-    authorContainer.append(author);
-  }
+  });
+}
+
+// Get book description
+function getDescr(resp, num, id, el, clickEl) {
+  axios
+    .get(`https://openlibrary.org${resp.data.works[num].key}.json`)
+    .then(function (response) {
+      makeDescr(response, id, el, clickEl);
+    });
+}
+
+function makeDescr(resp, id, el, clickEl) {
+  // Description element
+  const descriptionEl = document.createElement("div");
+  descriptionEl.classList.add("description");
+
+  el.append(descriptionEl);
 
   // Book cover
   const cover = document.createElement("div");
   cover.classList.add("cover");
-  cover.style.backgroundImage = `url(https://covers.openlibrary.org/b/id/${response.data.works[a].cover_id}-M.jpg)`;
 
-  // Book description
-  const description = document.createElement("div");
-  description.classList.add("description");
-  // Get book description
-  axios
-    .get(`https://openlibrary.org${response.data.works[a].key}.json`)
-    .then(function (response) {
-      let descriptionText;
-      if (typeof response.data.description == "string") {
-        descriptionText = response.data.description;
-      } else {
-        descriptionText = response.data.description.value;
-      }
+  // Check if cover image exists
+  if (id == null || id == "") {
+    cover.textContent = "No cover";
+  } else {
+    cover.style.backgroundImage = `url(https://covers.openlibrary.org/b/id/${id}-M.jpg)`;
+  }
 
-      description.innerHTML += `<p>${descriptionText}</p>`;
-    });
+  descriptionEl.append(cover);
 
-  // Add cover and description to document
-  bookItem.append(cover);
-  cover.after(description);
+  //Book description
+  const description = document.createElement("p");
 
-  // Show and hide cover and description of book
-  const arrow = document.querySelector(".arrow");
-  arrow.addEventListener("click", function () {
-    if (
-      !description.classList.contains("show") &&
-      !cover.classList.contains("show")
-    ) {
-      description.classList.add("show");
-      cover.classList.add("show");
-      arrow.classList.remove("fa-angle-down");
-      arrow.classList.add("fa-angle-up");
+  let descriptionText;
+  if (typeof resp.data.description == "string") {
+    descriptionText = resp.data.description;
+  } else if (typeof resp.data.description == "object") {
+    descriptionText = resp.data.description.value;
+  } else {
+    descriptionText = "No description";
+  }
+
+  // Format description text
+  const searchItem = "----";
+  const index = descriptionText.indexOf(searchItem);
+  if (index != -1) {
+    descriptionText = descriptionText.slice(0, index);
+  }
+  description.textContent = descriptionText;
+
+  descriptionEl.append(description);
+
+  // expand and shrink book item decription
+  clickEl.addEventListener("click", () => {
+    if (!descriptionEl.classList.contains("show")) {
+      descriptionEl.classList.add("show");
+      clickEl.classList.remove("fa-angle-down");
+      clickEl.classList.add("fa-angle-up");
     } else {
-      description.classList.remove("show");
-      cover.classList.remove("show");
-      arrow.classList.remove("fa-angle-up");
-      arrow.classList.add("fa-angle-down");
+      descriptionEl.classList.remove("show");
+      clickEl.classList.remove("fa-angle-up");
+      clickEl.classList.add("fa-angle-down");
     }
   });
 }
