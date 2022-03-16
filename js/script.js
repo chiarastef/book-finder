@@ -13,7 +13,8 @@ searchBtn.addEventListener("click", function (event) {
 
   // Check if input is empty
   if (subject == "") {
-    emptySubjMsg();
+    // Show error message
+    emptySubjMsg("emptySubj");
     return;
   }
 
@@ -21,7 +22,7 @@ searchBtn.addEventListener("click", function (event) {
   getBookList(subject);
 });
 
-// Get list of books for subject in input
+// Get list of books
 function getBookList(subject) {
   axios
     .get(`https://openlibrary.org/subjects/${subject}.json`)
@@ -31,51 +32,44 @@ function getBookList(subject) {
         createBookItem(response, i);
       }
 
+      // If there are no books related to that subject show error message
       if (response.data.work_count == 0) {
-        noSubjMsg();
+        emptySubjMsg("noSubj");
       }
     })
     .catch(function () {
-      // handle error
-      emptySubjMsg();
+      // Show error message
+      emptySubjMsg("emptySubj");
     });
 }
 
-// Create error message if subject doesn't exist
-function noSubjMsg() {
-  // Make message appear only once
-  if (document.querySelector(`.no-subj-msg`)) {
-    return;
-  }
-
-  // Make message appear
-  const noSubj = document.createElement("div");
-  noSubj.classList.add("no-subj-msg");
-  noSubj.textContent = "Sorry, there are no books related to this subject.";
-  form.after(noSubj);
-
-  // When user types in the input, make message disappear
-  searchInput.addEventListener("input", function () {
-    noSubj.remove();
-  });
-}
-
-// Create error message if input is empty
-function emptySubjMsg() {
+// Create error message if input is empty or if there are no books related to subject
+function emptySubjMsg(text) {
   // Make message appear only once
   if (document.querySelector(".no-subj-msg")) {
     return;
   }
 
-  // Make message appear
-  const emptySubj = document.createElement("div");
-  emptySubj.classList.add("no-subj-msg");
-  emptySubj.textContent = "Please, type a subject to find books.";
-  form.after(emptySubj);
+  // Check if the error was the empty input or not
+  let isEmpty;
+  if (text == "emptySubj") {
+    isEmpty = true;
+  }
 
-  // When user types in the input, make message disappear
+  // Make message appear
+  text = document.createElement("div");
+  text.classList.add("no-subj-msg");
+  // Change message based on the error type
+  if (isEmpty == true) {
+    text.textContent = "Please, type a subject to find books.";
+  } else {
+    text.textContent = "Sorry, there are no books related to this subject.";
+  }
+  form.after(text);
+
+  // When user types in the search field, make message disappear
   searchInput.addEventListener("input", function () {
-    emptySubj.remove();
+    text.remove();
   });
 }
 
@@ -90,17 +84,17 @@ function createBookItem(resp, num) {
   const titleEl = document.createElement("span");
   titleEl.classList.add("title");
 
-  bookItem.append(titleEl);
-
   titleEl.textContent = resp.data.works[num].title;
+
+  bookItem.append(titleEl);
 
   // Book author element
   const authorEl = document.createElement("span");
   authorEl.classList.add("author");
 
-  bookItem.append(authorEl);
-
   addAuthors(resp, num, authorEl);
+
+  bookItem.append(authorEl);
 
   // Arrow element to expand book item
   const arrow = document.createElement("i");
@@ -113,7 +107,7 @@ function createBookItem(resp, num) {
   const coverId = resp.data.works[num].cover_id;
 
   // Get book description
-  getDescr(resp, num, coverId, bookItem, arrow);
+  getDescr(resp, num, coverId, bookItem, titleEl, authorEl, arrow);
 
   // Delete book items when the user clicks on search again
   searchBtn.addEventListener("click", () => {
@@ -124,8 +118,15 @@ function createBookItem(resp, num) {
 // Format author element
 function addAuthors(resp, num, el) {
   el.textContent = "by ";
+
+  // Check if author is listed
+  if (resp.data.works[num].authors.length == 0) {
+    el.textContent += "Unknown";
+  }
+
+  //Format author list
   resp.data.works[num].authors.forEach((author, index) => {
-    // Check if there are more than one authors
+    // Check if there's more than one author
     if (resp.data.works[num].authors.length > 1) {
       // Add a comma after every author name except the last one
       if (resp.data.works[num].authors.length - 1 != index) {
@@ -140,15 +141,15 @@ function addAuthors(resp, num, el) {
 }
 
 // Get book description
-function getDescr(resp, num, id, el, clickEl) {
+function getDescr(resp, num, id, el, bookTitle, bookAuthor, clickEl) {
   axios
     .get(`https://openlibrary.org${resp.data.works[num].key}.json`)
     .then(function (response) {
-      makeDescr(response, id, el, clickEl);
+      makeDescr(response, id, el, bookTitle, bookAuthor, clickEl);
     });
 }
 
-function makeDescr(resp, id, el, clickEl) {
+function makeDescr(resp, id, el, bookTitle, bookAuthor, clickEl) {
   // Description element
   const descriptionEl = document.createElement("div");
   descriptionEl.classList.add("description");
@@ -159,18 +160,43 @@ function makeDescr(resp, id, el, clickEl) {
   const cover = document.createElement("div");
   cover.classList.add("cover");
 
-  // Check if cover image exists
-  if (id == null || id == "") {
-    cover.textContent = "No cover";
-  } else {
-    cover.style.backgroundImage = `url(https://covers.openlibrary.org/b/id/${id}-M.jpg)`;
-  }
+  formatCover(cover, id, bookAuthor, bookTitle);
 
   descriptionEl.append(cover);
 
   //Book description
   const description = document.createElement("p");
 
+  const descriptionText = formatDescr(resp);
+
+  description.textContent = descriptionText;
+
+  descriptionEl.append(description);
+
+  // Expand and shrink book item decription
+  expand(clickEl, descriptionEl);
+}
+
+function formatCover(cover, id, bookAuthor, bookTitle) {
+  // Format authors to add in case there's no cover
+  let author = bookAuthor.textContent;
+  const index = author.indexOf(",", 55);
+  if (index != -1) {
+    author = author.slice(0, index);
+    author += ", etc.";
+  }
+
+  //Check if cover image exists
+  if (id == null || id == "") {
+    cover.style.backgroundColor = "#f7f0f087";
+    cover.innerHTML = `<span class="titleS">${bookTitle.textContent}</span>
+                       <span class="authorS">${author}</span>`;
+  } else {
+    cover.style.backgroundImage = `url(https://covers.openlibrary.org/b/id/${id}-M.jpg)`;
+  }
+}
+
+function formatDescr(resp) {
   let descriptionText;
   if (typeof resp.data.description == "string") {
     descriptionText = resp.data.description;
@@ -180,17 +206,18 @@ function makeDescr(resp, id, el, clickEl) {
     descriptionText = "No description";
   }
 
-  // Format description text
-  const searchItem = "----";
-  const index = descriptionText.indexOf(searchItem);
+  // Delete extra information
+  const dashes = "----";
+  const index = descriptionText.indexOf(dashes);
   if (index != -1) {
     descriptionText = descriptionText.slice(0, index);
   }
-  description.textContent = descriptionText;
 
-  descriptionEl.append(description);
+  return descriptionText;
+}
 
-  // expand and shrink book item decription
+// Expand and shrink book item decription when clicked
+function expand(clickEl, descriptionEl) {
   clickEl.addEventListener("click", () => {
     if (!descriptionEl.classList.contains("show")) {
       descriptionEl.classList.add("show");

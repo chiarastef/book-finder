@@ -28,7 +28,7 @@ body {
   background: #eeac47;
 }
 
-form, .bookItem {
+form, .bookItem, .bookItem .cover {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -126,12 +126,26 @@ form button:active {
 }
 
 .bookItem .cover {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   height: 190px;
   width: 116px;
+  padding: 5px;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
   margin: 0 auto 10px;
+}
+
+.bookItem .cover .titleS {
+  font-size: 15px;
+}
+
+.bookItem .cover .authorS {
+  opacity: 0.9;
+  margin-top: 3px;
+  font-size: 10px;
 }
 
 .bookItem .show {

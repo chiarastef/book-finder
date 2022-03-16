@@ -122,12 +122,25 @@ form {
   }
 
   .cover {
+    @extend %flex-column-center;
+    justify-content: center;
     height: 190px;
     width: 116px;
+    padding: 5px;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
     margin: 0 auto 10px;
+
+    .titleS {
+      font-size: 15px;
+    }
+
+    .authorS {
+      opacity: 0.9;
+      margin-top: 3px;
+      font-size: 10px;
+    }
   }
 
   .show {
