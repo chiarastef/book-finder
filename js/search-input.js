@@ -1,16 +1,20 @@
 const searchInput = document.querySelector("#searchInput");
 const searchBtn = document.querySelector("#searchBtn");
 const form = document.querySelector("form");
+const loader = document.querySelector(".loader");
 
-// Search subject
-searchBtn.addEventListener("click", function (event) {
-  event.preventDefault();
+// Search subject inputted
+searchBtn.addEventListener("click", (event) => handleInput(event));
+
+// Handle input provided by user
+function handleInput(e) {
+  e.preventDefault();
+
+  // Make loader appear
+  loader.classList.add("show-loader");
 
   // Make input text always all lowercase
-  let subject = searchInput.value.toLowerCase();
-
-  // Empty input field after search
-  searchInput.value = "";
+  const subject = searchInput.value.toLowerCase();
 
   // Check if input is empty
   if (subject == "") {
@@ -19,12 +23,18 @@ searchBtn.addEventListener("click", function (event) {
     return;
   }
 
+  // Empty input field after search
+  searchInput.value = "";
+
   // Get list of books related to that subject
   getBookList(subject);
-});
+}
 
 // Create error message if input is empty or if there are no books related to subject
 function emptySubjMsg(text) {
+  // Make loader disappear
+  loader.classList.remove("show-loader");
+
   // Make message appear only once
   if (document.querySelector(".no-subj-msg")) {
     return;
@@ -47,7 +57,7 @@ function emptySubjMsg(text) {
   }
   form.after(text);
 
-  // When user types in the search field, make message disappear
+  // When user types again in the search field, make message disappear
   searchInput.addEventListener("input", function () {
     text.remove();
   });

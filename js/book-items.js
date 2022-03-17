@@ -1,11 +1,11 @@
 function createBookItem(resp, num) {
-  // Create single book item for all books
+  // Create single book item
   const bookItem = document.createElement("div");
   bookItem.classList.add("bookItem");
 
   form.after(bookItem);
 
-  // Book title element
+  // Create book title element
   const titleEl = document.createElement("span");
   titleEl.classList.add("title");
 
@@ -13,7 +13,7 @@ function createBookItem(resp, num) {
 
   bookItem.append(titleEl);
 
-  // Book author element
+  // Create book author element
   const authorEl = document.createElement("span");
   authorEl.classList.add("author");
 
@@ -21,7 +21,7 @@ function createBookItem(resp, num) {
 
   bookItem.append(authorEl);
 
-  // Expand button to show book cover and description
+  // Create expand button to show book cover and description
   const expandEl = document.createElement("button");
   expandEl.classList.add("expand");
   expandEl.innerHTML = `<span>Expand</span><i class="fa-solid fa-sort-down arrow-down"></i>`;
@@ -29,13 +29,13 @@ function createBookItem(resp, num) {
 
   bookItem.append(expandEl);
 
-  // Book cover ID
+  // Get book cover ID
   const coverId = resp.data.works[num].cover_id;
 
   // Get book description
   getDescr(resp, num, coverId, bookItem, titleEl, authorEl, expandEl);
 
-  // Delete book items when the user clicks on search again
+  // Delete book items when the user clicks on search button again
   searchBtn.addEventListener("click", () => {
     bookItem.remove();
   });

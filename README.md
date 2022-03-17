@@ -8,13 +8,15 @@ This is the final project from the JavaScript Advanced course on the online cour
 
 ## Screenshots
 
+<img src="./screenshots/book-finder-preview1.png" alt="Book finder website preview" width="650px">
+<img src="./screenshots/book-finder-preview2.png" alt="Book finder website preview with search results" width="650px">
 
 ## Project
 
 Users should be able to:
 
-- Type a subject in the search field and see a list of books with their titles and authors
-- Click or tap on the arrow to expand the book element and see its cover and description
+- Type a subject in the search field and see a list of books related to that subject with their titles and authors
+- Click or tap on the expand button to expand the book element and see the cover and description of the book
 
 The website uses the Open Library API and Axios to fetch the data.
 

@@ -29,6 +29,7 @@ function makeDescr(resp, id, el, bookTitle, bookAuthor, clickEl) {
 function formatCover(cover, id, bookAuthor, bookTitle) {
   // Format authors to add in case there's no cover
   let author = bookAuthor.textContent;
+  // In case authors list is too long to fit inside cover, make string shorted and add etc.
   const index = author.indexOf(",", 55);
   if (index != -1) {
     author = author.slice(0, index);
@@ -42,6 +43,7 @@ function formatCover(cover, id, bookAuthor, bookTitle) {
                        <span class="authorS">${author}</span>`;
   } else {
     cover.style.backgroundImage = `url(https://covers.openlibrary.org/b/id/${id}-M.jpg)`;
+    cover.setAttribute("title", `${bookTitle.textContent}'s cover`);
   }
 }
 
@@ -52,7 +54,7 @@ function formatDescr(resp) {
   } else if (typeof resp.data.description == "object") {
     descriptionText = resp.data.description.value;
   } else {
-    descriptionText = "No description";
+    descriptionText = "";
   }
 
   // Delete extra information

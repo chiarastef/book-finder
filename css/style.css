@@ -62,7 +62,7 @@ h1 {
 
 /* Search form */
 form {
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 form label {
@@ -85,8 +85,49 @@ form button:active {
   background-color: #eeac47;
 }
 
+/* Input error message */
 .no-subj-msg {
   text-align: center;
+}
+
+/* Loader */
+.loader {
+  display: none;
+  width: 50px;
+  height: 50px;
+  border: 7px solid #f8f398;
+  border-top: 7px solid #f1b963;
+  border-bottom: 7px solid #f1b963;
+  border-radius: 50%;
+  margin: auto;
+  -webkit-animation: spin 1.7s linear infinite;
+          animation: spin 1.7s linear infinite;
+}
+
+.show-loader {
+  display: block;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
 }
 
 /* Book item */

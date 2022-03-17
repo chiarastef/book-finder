@@ -1,4 +1,5 @@
 $background-color: #f8f398;
+$title-color: #e46161;
 $accent-color: #f1b963;
 $darker-accent-color: darken($accent-color, 6%);
 $border: 2px solid $accent-color;
@@ -51,7 +52,7 @@ h1 {
   font-family: "Fredoka", sans-serif;
   font-size: 45px;
   font-weight: 500;
-  color: #e46161;
+  color: $title-color;
   text-align: center;
   margin: 50px 0 20px;
 }
@@ -59,7 +60,7 @@ h1 {
 /* Search form */
 form {
   @extend %flex-column-center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 
   label {
     margin-bottom: 5px;
@@ -83,8 +84,35 @@ form {
   }
 }
 
+/* Input error message */
 .no-subj-msg {
   text-align: center;
+}
+
+/* Loader */
+.loader {
+  display: none;
+  width: 50px;
+  height: 50px;
+  border: 7px solid $background-color;
+  border-top: 7px solid $accent-color;
+  border-bottom: 7px solid $accent-color;
+  border-radius: 50%;
+  margin: auto;
+  animation: spin 1.7s linear infinite;
+}
+
+.show-loader {
+  display: block;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Book item */

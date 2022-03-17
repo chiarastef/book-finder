@@ -3,7 +3,11 @@ function getBookList(subject) {
   axios
     .get(`https://openlibrary.org/subjects/${subject}.json`)
     .then(function (response) {
+      // Make loader disappear
+      loader.classList.remove("show-loader");
+
       // Iterate through array of works with that subject and create book items
+      // In order to follow the books order of the json file, the book items are created and inserted in reverse order
       for (let i = response.data.works.length - 1; i >= 0; i--) {
         createBookItem(response, i);
       }
