@@ -62,7 +62,7 @@ h1 {
 
 /* Search form */
 form {
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 }
 
 form label {
@@ -78,11 +78,16 @@ form input[type="text"] {
 
 form button {
   padding: 8px 13px;
+  margin-bottom: 15px;
 }
 
 form button:hover,
 form button:active {
   background-color: #eeac47;
+}
+
+form div {
+  font-size: 17px;
 }
 
 /* Input error message */
@@ -227,6 +232,9 @@ form button:active {
   }
   form button {
     font-size: 14px;
+  }
+  form div {
+    font-size: 18px;
   }
   .bookItem .title {
     font-size: 18px;

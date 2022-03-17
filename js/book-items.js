@@ -1,3 +1,17 @@
+// Create searched subject element
+function showSearched(subj) {
+  const subjSearched = document.createElement("div");
+  subjSearched.innerText = `Subject searched: ${subj}`;
+
+  form.append(subjSearched);
+
+  // Delete subject searched text when the user clicks on search button again
+  searchBtn.addEventListener("click", () => {
+    subjSearched.remove();
+  });
+}
+
+// Create book item
 function createBookItem(resp, num) {
   // Create single book item
   const bookItem = document.createElement("div");

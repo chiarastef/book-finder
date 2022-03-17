@@ -60,7 +60,7 @@ h1 {
 /* Search form */
 form {
   @extend %flex-column-center;
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 
   label {
     margin-bottom: 5px;
@@ -76,11 +76,16 @@ form {
   button {
     @extend %button;
     padding: 8px 13px;
+    margin-bottom: 15px;
   }
 
   button:hover,
   button:active {
     background-color: $darker-accent-color;
+  }
+
+  div {
+    font-size: 17px;
   }
 }
 
@@ -219,6 +224,10 @@ form {
 
     button {
       font-size: 14px;
+    }
+
+    div {
+      font-size: 18px;
     }
   }
 

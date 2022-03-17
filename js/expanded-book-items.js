@@ -43,7 +43,7 @@ function formatCover(cover, id, bookAuthor, bookTitle) {
                        <span class="authorS">${author}</span>`;
   } else {
     cover.style.backgroundImage = `url(https://covers.openlibrary.org/b/id/${id}-M.jpg)`;
-    cover.setAttribute("title", `${bookTitle.textContent}'s cover`);
+    cover.setAttribute("title", `Cover of ${bookTitle.textContent}`);
   }
 }
 

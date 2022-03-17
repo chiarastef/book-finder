@@ -6,6 +6,9 @@ function getBookList(subject) {
       // Make loader disappear
       loader.classList.remove("show-loader");
 
+      // Show subject searched
+      showSearched(subject);
+
       // Iterate through array of works with that subject and create book items
       // In order to follow the books order of the json file, the book items are created and inserted in reverse order
       for (let i = response.data.works.length - 1; i >= 0; i--) {
