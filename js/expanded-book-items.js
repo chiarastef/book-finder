@@ -1,11 +1,12 @@
+// Make description element
 function makeDescr(resp, id, el, bookTitle, bookAuthor, clickEl) {
-  // Description element
+  // Create description element
   const descriptionEl = document.createElement("div");
   descriptionEl.classList.add("description");
 
   el.append(descriptionEl);
 
-  // Book cover
+  // Create book cover element
   const cover = document.createElement("div");
   cover.classList.add("cover");
 
@@ -13,7 +14,7 @@ function makeDescr(resp, id, el, bookTitle, bookAuthor, clickEl) {
 
   descriptionEl.append(cover);
 
-  //Book description
+  //Create description element
   const description = document.createElement("p");
 
   const descriptionText = formatDescr(resp);
@@ -26,17 +27,18 @@ function makeDescr(resp, id, el, bookTitle, bookAuthor, clickEl) {
   expand(clickEl, descriptionEl);
 }
 
+//Format book cover
 function formatCover(cover, id, bookAuthor, bookTitle) {
   // Format authors to add in case there's no cover
   let author = bookAuthor.textContent;
-  // In case authors list is too long to fit inside cover, make string shorted and add etc.
+  // In case authors list is too long to fit inside the cover, make string shorter and add 'etc.'
   const index = author.indexOf(",", 55);
   if (index != -1) {
     author = author.slice(0, index);
     author += ", etc.";
   }
 
-  //Check if cover image exists
+  //Check if cover image exists and add cover or text
   if (id == null || id == "") {
     cover.style.backgroundColor = "#f7f0f087";
     cover.innerHTML = `<span class="titleS">${bookTitle.textContent}</span>
@@ -47,6 +49,7 @@ function formatCover(cover, id, bookAuthor, bookTitle) {
   }
 }
 
+//Format book description
 function formatDescr(resp) {
   let descriptionText;
   if (typeof resp.data.description == "string") {
