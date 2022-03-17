@@ -38,6 +38,15 @@ body {
   align-items: center;
 }
 
+%button {
+  font-family: inherit;
+  background-color: $accent-color;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 300ms ease-in-out;
+}
+
 h1 {
   font-family: "Fredoka", sans-serif;
   font-size: 45px;
@@ -64,13 +73,8 @@ form {
   }
 
   button {
-    font-family: inherit;
-    background-color: $accent-color;
-    border: none;
-    border-radius: 8px;
+    @extend %button;
     padding: 8px 13px;
-    cursor: pointer;
-    transition: background-color 300ms ease-in-out;
   }
 
   button:hover,
@@ -103,22 +107,38 @@ form {
     opacity: 0.9;
   }
 
-  .arrow {
-    font-size: 23px;
-    color: $accent-color;
-    cursor: pointer;
-    transition: color 300ms ease-in-out;
+  .expand {
+    @extend %button;
+    padding: 4px 9px;
+    margin-top: 6px;
+
+    %arrow {
+      font-size: 15px;
+      margin-left: 6px;
+    }
+
+    .arrow-down {
+      @extend %arrow;
+      position: relative;
+      bottom: 2px;
+    }
+
+    .arrow-up {
+      @extend %arrow;
+      position: relative;
+      top: 5px;
+    }
   }
 
-  .arrow:hover {
-    color: $darker-accent-color;
+  .expand:hover {
+    background-color: $darker-accent-color;
   }
 
   .description {
     display: none;
     text-align: center;
     font-size: 15px;
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
   .cover {

@@ -41,6 +41,16 @@ form, .bookItem, .bookItem .cover {
           align-items: center;
 }
 
+form button, .bookItem .expand {
+  font-family: inherit;
+  background-color: #f1b963;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-transition: background-color 300ms ease-in-out;
+  transition: background-color 300ms ease-in-out;
+}
+
 h1 {
   font-family: "Fredoka", sans-serif;
   font-size: 45px;
@@ -67,14 +77,7 @@ form input[type="text"] {
 }
 
 form button {
-  font-family: inherit;
-  background-color: #f1b963;
-  border: none;
-  border-radius: 8px;
   padding: 8px 13px;
-  cursor: pointer;
-  -webkit-transition: background-color 300ms ease-in-out;
-  transition: background-color 300ms ease-in-out;
 }
 
 form button:hover,
@@ -106,23 +109,35 @@ form button:active {
   opacity: 0.9;
 }
 
-.bookItem .arrow {
-  font-size: 23px;
-  color: #f1b963;
-  cursor: pointer;
-  -webkit-transition: color 300ms ease-in-out;
-  transition: color 300ms ease-in-out;
+.bookItem .expand {
+  padding: 4px 9px;
+  margin-top: 6px;
 }
 
-.bookItem .arrow:hover {
-  color: #eeac47;
+.bookItem .expand .arrow-down, .bookItem .expand .arrow-up {
+  font-size: 15px;
+  margin-left: 6px;
+}
+
+.bookItem .expand .arrow-down {
+  position: relative;
+  bottom: 2px;
+}
+
+.bookItem .expand .arrow-up {
+  position: relative;
+  top: 5px;
+}
+
+.bookItem .expand:hover {
+  background-color: #eeac47;
 }
 
 .bookItem .description {
   display: none;
   text-align: center;
   font-size: 15px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .bookItem .cover {
