@@ -6,6 +6,12 @@ function getBookList(subject) {
       // Make loader disappear
       loader.classList.remove("show-loader");
 
+      // If there are no books related to that subject show error message
+      if (response.data.work_count == 0) {
+        emptySubjMsg("noSubj");
+        return;
+      }
+
       // Show subject searched
       showSearched(subject);
 
@@ -13,11 +19,6 @@ function getBookList(subject) {
       // In order to follow the books order of the json file, the book items are created and inserted in reverse order
       for (let i = response.data.works.length - 1; i >= 0; i--) {
         createBookItem(response, i);
-      }
-
-      // If there are no books related to that subject show error message
-      if (response.data.work_count == 0) {
-        emptySubjMsg("noSubj");
       }
     })
     .catch(function () {
