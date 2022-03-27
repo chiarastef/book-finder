@@ -1,5 +1,9 @@
+import { form } from "./search-input.js";
+import { searchBtn } from "./index.js";
+import { getDescr } from "./axios-requests.js";
+
 // Create searched subject element
-function showSearched(subj) {
+export function showSearched(subj) {
   const subjSearched = document.createElement("div");
   subjSearched.innerText = `Subject searched: ${subj}`;
 
@@ -12,7 +16,7 @@ function showSearched(subj) {
 }
 
 // Create book item
-function createBookItem(resp, num) {
+export function createBookItem(resp, num) {
   // Create single book item
   const bookItem = document.createElement("div");
   bookItem.classList.add("bookItem");
@@ -64,7 +68,7 @@ function addAuthors(resp, num, elem) {
     elem.textContent += "Unknown";
   }
 
-  //Format author list
+  // Format author list
   resp.data.works[num].authors.forEach((author, index) => {
     // Check if there's more than one author
     if (resp.data.works[num].authors.length > 1) {

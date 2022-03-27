@@ -1,5 +1,11 @@
-// Get list of books
-function getBookList(subject) {
+import axios from "axios";
+
+import { emptySubjMsg, loader } from "./search-input.js";
+import { showSearched, createBookItem } from "./book-items.js";
+import { makeDescr } from "./expanded-book-items.js";
+
+//Get list of books
+export function getBookList(subject) {
   axios
     .get(`https://openlibrary.org/subjects/${subject}.json`)
     .then(function (response) {
@@ -28,7 +34,7 @@ function getBookList(subject) {
 }
 
 // Get book description
-function getDescr(resp, num, id, el, bookTitle, bookAuthor, clickEl) {
+export function getDescr(resp, num, id, el, bookTitle, bookAuthor, clickEl) {
   axios
     .get(`https://openlibrary.org${resp.data.works[num].key}.json`)
     .then(function (response) {

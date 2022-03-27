@@ -19,6 +19,7 @@ Users should be able to:
 - Click or tap on the expand button to expand the book element and see the cover and description of the book
 
 The website uses the Open Library API and Axios to fetch the data.
+I used Webpack to bundle the files.
 
 ## Built with
 
@@ -27,6 +28,7 @@ The website uses the Open Library API and Axios to fetch the data.
 - JavaScript
 - Sass
 - Axios
+- Webpack
 
 ## Author
 

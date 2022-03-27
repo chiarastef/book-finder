@@ -1,5 +1,5 @@
 // Make description element
-function makeDescr(resp, id, el, bookTitle, bookAuthor, clickEl) {
+export function makeDescr(resp, id, el, bookTitle, bookAuthor, clickEl) {
   // Create description element
   const descriptionEl = document.createElement("div");
   descriptionEl.classList.add("description");
@@ -60,7 +60,7 @@ function formatDescr(resp) {
     descriptionText = "";
   }
 
-  // Delete extra information
+  //Delete extra information
   const dashes = "----";
   const index = descriptionText.indexOf(dashes);
   if (index != -1) {

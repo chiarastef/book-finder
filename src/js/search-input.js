@@ -1,13 +1,11 @@
-const searchInput = document.querySelector("#searchInput");
-const searchBtn = document.querySelector("#searchBtn");
-const form = document.querySelector("form");
-const loader = document.querySelector(".loader");
+import { getBookList } from "./axios-requests.js";
 
-// Search subject inputted
-searchBtn.addEventListener("click", (event) => handleInput(event));
+const searchInput = document.querySelector("#searchInput");
+export const loader = document.querySelector(".loader");
+export const form = document.querySelector("form");
 
 // Handle input provided by user
-function handleInput(e) {
+export function handleInput(e) {
   e.preventDefault();
 
   // Make loader appear
@@ -31,7 +29,7 @@ function handleInput(e) {
 }
 
 // Create error message if input is empty or if there are no books related to subject
-function emptySubjMsg(text) {
+export function emptySubjMsg(text) {
   // Make loader disappear
   loader.classList.remove("show-loader");
 
