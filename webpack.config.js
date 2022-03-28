@@ -6,19 +6,9 @@ module.exports = {
   mode: "development",
   entry: "./src/js/index.js",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "bundle"),
     filename: "bundle.[contenthash].js",
     clean: true,
-  },
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, "dist"),
-    },
-    port: 3000,
-    open: true,
-    hot: true,
-    compress: true,
-    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -34,10 +24,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: "./index.html",
-      favicon: "./src/img/bookshelf.png",
+      filename: "../index.html",
       template: "./src/template.html",
     }),
-    new MiniCssExtractPlugin({ filename: "style.css" }),
+    new MiniCssExtractPlugin({ filename: "../src/css/style.css" }),
   ],
 };
