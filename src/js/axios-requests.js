@@ -10,7 +10,7 @@ export function getBookList(subject) {
     .get(`https://openlibrary.org/subjects/${subject}.json`)
     .then(function (response) {
       // Make loader disappear
-      loader.classList.remove("show-loader");
+      loader.classList.remove("show");
 
       // If there are no books related to that subject show error message
       if (response.data.work_count == 0) {

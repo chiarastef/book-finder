@@ -9,7 +9,7 @@ export function handleInput(e) {
   e.preventDefault();
 
   // Make loader appear
-  loader.classList.add("show-loader");
+  loader.classList.add("show");
 
   // Make input text always all lowercase
   const subject = searchInput.value.toLowerCase();
@@ -31,7 +31,7 @@ export function handleInput(e) {
 // Create error message if input is empty or if there are no books related to subject
 export function emptySubjMsg(text) {
   // Make loader disappear
-  loader.classList.remove("show-loader");
+  loader.classList.remove("show");
 
   // Make message appear only once
   if (document.querySelector(".no-subj-msg")) {
