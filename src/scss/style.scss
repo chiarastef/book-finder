@@ -109,10 +109,6 @@ form {
   animation: spin 1.7s linear infinite;
 }
 
-.show-loader {
-  display: block;
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -203,6 +199,24 @@ form {
   }
 }
 
+/* Scroll to top button */
+.scroll-top {
+  @extend %button;
+  display: none;
+  position: fixed;
+  right: 10px;
+  bottom: 20px;
+  padding: 8px 11px;
+}
+
+.scroll-top:hover {
+  background-color: $darker-accent-color;
+}
+
+.show {
+  display: block;
+}
+
 /* Media queries */
 @media screen and (min-width: 500px) {
   .bookItem {
@@ -270,6 +284,10 @@ form {
       width: 126px;
     }
   }
+
+  .scroll-top {
+    right: 30px;
+  }
 }
 
 @media screen and (min-width: 992px) {
@@ -304,11 +322,19 @@ form {
       width: 131px;
     }
   }
+
+  .scroll-top {
+    right: 40px;
+  }
 }
 
 @media screen and (min-width: 1200px) {
   .bookItem {
     width: 900px;
     padding: 17px 80px;
+  }
+
+  .scroll-top {
+    right: 50px;
   }
 }

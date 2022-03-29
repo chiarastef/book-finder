@@ -1,3 +1,5 @@
+const _ = require("lodash");
+
 import { form } from "./search-input.js";
 import { searchBtn } from "./index.js";
 import { getDescr } from "./axios-requests.js";
@@ -27,7 +29,7 @@ export function createBookItem(resp, num) {
   const titleEl = document.createElement("span");
   titleEl.classList.add("title");
 
-  titleEl.textContent = resp.data.works[num].title;
+  titleEl.textContent = _.get(resp.data, `works[${num}].title`, "");
 
   bookItem.append(titleEl);
 
@@ -48,7 +50,7 @@ export function createBookItem(resp, num) {
   bookItem.append(expandEl);
 
   // Get book cover ID
-  const coverId = resp.data.works[num].cover_id;
+  const coverId = _.get(resp.data, `works[${num}].cover_id`, "");
 
   // Get book description
   getDescr(resp, num, coverId, bookItem, titleEl, authorEl, expandEl);
@@ -64,7 +66,7 @@ function addAuthors(resp, num, elem) {
   elem.textContent = "by ";
 
   // Check if author is listed
-  if (resp.data.works[num].authors.length == 0) {
+  if (resp.data == undefined || resp.data.works[num].authors.length == 0) {
     elem.textContent += "Unknown";
   }
 

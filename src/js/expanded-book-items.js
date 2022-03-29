@@ -51,13 +51,10 @@ function formatCover(cover, id, bookAuthor, bookTitle) {
 
 //Format book description
 function formatDescr(resp) {
-  let descriptionText;
-  if (typeof resp.data.description == "string") {
-    descriptionText = resp.data.description;
-  } else if (typeof resp.data.description == "object") {
-    descriptionText = resp.data.description.value;
-  } else {
-    descriptionText = "";
+  let descriptionText = _.get(resp.data, `description`, "");
+
+  if (typeof descriptionText == "object") {
+    descriptionText = descriptionText.value;
   }
 
   //Delete extra information
