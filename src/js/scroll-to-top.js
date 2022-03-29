@@ -2,7 +2,10 @@ import { scrollTopBtn } from "./index.js";
 
 // Show scroll to top button
 export function showScrollBtn() {
-  if (document.documentElement.scrollTop > 40 || document.body.scrollTop > 40) {
+  if (
+    document.documentElement.scrollTop > 100 ||
+    document.body.scrollTop > 100
+  ) {
     scrollTopBtn.classList.add("show");
   } else {
     scrollTopBtn.classList.remove("show");

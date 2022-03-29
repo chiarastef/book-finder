@@ -204,7 +204,7 @@ form {
   @extend %button;
   display: none;
   position: fixed;
-  right: 10px;
+  right: 15px;
   bottom: 20px;
   padding: 8px 11px;
 }
@@ -325,6 +325,7 @@ form {
 
   .scroll-top {
     right: 40px;
+    padding: 8px 18px;
   }
 }
 
