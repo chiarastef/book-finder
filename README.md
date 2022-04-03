@@ -18,7 +18,7 @@ Users should be able to:
 - Type a subject in the search field and see a list of books related to that subject with their titles and authors
 - Click or tap on the expand button to expand the book element and see the cover and description of the book
 
-The website uses the Open Library API and Axios to fetch the data.
+The website uses the Open Library API and Axios to fetch the data.  
 I used Webpack to bundle the files.
 
 ## Built with
@@ -28,6 +28,7 @@ I used Webpack to bundle the files.
 - JavaScript
 - Sass
 - Axios
+- Lodash
 - Webpack
 
 ## Author
